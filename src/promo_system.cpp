@@ -82,7 +82,30 @@ public:
         switch (promoType)
         {
         case 0:
-            player->AddItem(promoValue, promoAmount);
+            {
+                ItemPosCountVec dest;
+            
+                if (player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, promoValue, promoAmount) == EQUIP_ERR_OK)
+                {
+                    player->AddItem(promoValue, promoAmount);
+                }
+                else
+                {
+                    Item* item = Item::CreateItem(promoValue, promoAmount, player);
+
+                    if (!item)
+                    {
+                        return false;
+                    }
+
+                    MailDraft mail("Promo code reward", "Your items did not fit into the bags, so they were sent by mail.");
+                    mail.AddItem(item);
+
+                    CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+                    mail.SendMailTo(trans, MailReceiver(player), MailSender(player, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
+                    CharacterDatabase.CommitTransaction(trans);
+                }
+            }
             break;
         case 1:
             player->learnSpell(promoValue, false);
