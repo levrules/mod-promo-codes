@@ -1,0 +1,1 @@
+INSERT INTO `command` (`name`, `security`, `help`) VALUES ('promo', 0, '');

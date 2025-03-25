@@ -1,0 +1,6 @@
+INSERT INTO `acore_string` (`entry`, `content_default`, `locale_ruRU`) VALUES (35418, '|cff00ff00[PROMO]|r Enter promo code.', '|cff00ff00[ПРОМО]|r Укажите промокод.');
+INSERT INTO `acore_string` (`entry`, `content_default`, `locale_ruRU`) VALUES (35419, '|cff00ff00[PROMO]|r Promo code \"{}\" not found.', '|cff00ff00[ПРОМО]|r Промокод \"{}\" не найден.');
+INSERT INTO `acore_string` (`entry`, `content_default`, `locale_ruRU`) VALUES (35420, '|cff00ff00[PROMO]|r The promo code for the current character has already been activated.', '|cff00ff00[ПРОМО]|r Промокод для текущего персонажа уже был активирован.');
+INSERT INTO `acore_string` (`entry`, `content_default`, `locale_ruRU`) VALUES (35421, '|cff00ff00[PROMO]|r The promo code for the current account has already been activated.', '|cff00ff00[ПРОМО]|r Промокод для текущего аккаунта уже был активирован.');
+INSERT INTO `acore_string` (`entry`, `content_default`, `locale_ruRU`) VALUES (35422, '|cff00ff00[PROMO]|r The promo code \"{}\" was specified with an invalid type.', '|cff00ff00[ПРОМО]|r Для промокода \"{}\" был указан неверный тип.');
+INSERT INTO `acore_string` (`entry`, `content_default`, `locale_ruRU`) VALUES (35423, '|cff00ff00[PROMO]|r Promo code successfully activated.', '|cff00ff00[ПРОМО]|r Промокод успешно активирован.');
