@@ -17,7 +17,6 @@ local function PromoChatFilter(self, event, msg, author, ...)
         if promoText ~= lastPromoMessage then
             CustomPromoFrame.Responsse:SetText(promoText) -- Выводим без "PROMO: "
             CustomPromoFrame.Responsse:Show()
-            lastPromoMessage = promoText
         end
         return true -- Блокируем вывод в чат
     end
