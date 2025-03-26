@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+    <Script file="Custom_PromoCode.lua"/>
+
+    <Frame name="CustomPromoFrame" parent="UIParent" hidden="true" enableMouse="true" movable="true" frameStrata="DIALOG">
+        <Size>
+            <AbsDimension x="370" y="140"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Backdrop>
+            <EdgeFile file="Interface\\DialogFrame\\UI-DialogBox-Border" edgeSize="16"/>
+        </Backdrop>
+        <Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="promoCodeActiveLabel" font="Interface\\CustomFonts\\futurademic.ttf" justifyV="MIDDLE" justifyH="CENTER" hidden="true">
+					<FontHeight>
+						<AbsValue val="24"/>
+					</FontHeight>
+					<Size x="300" y="40"/>
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-54" />
+					</Anchors>
+					<Color r="0.39" g="0.21" b="0.05"/>
+					<Animations>
+						<AnimationGroup parentKey="animIn">
+							<Alpha change="-1" duration="0" order="1"/>
+							<Alpha change="1" duration="0.3" order="2"/>
+							<Scripts>
+								<OnPlay>
+									self:GetParent():Show()
+								</OnPlay>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</FontString>
+				<FontString parentKey="description" inherits="SystemFont_Med1" wordwrap="true" justifyH="CENTER" text="Введите промокод">
+					<Size x="310" y="64" />
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-44" />
+					</Anchors>
+					<Color r="0" g="0" b="0"/>
+					<Animations>
+						<AnimationGroup parentKey="animOut">
+							<Alpha change="-1" duration="0.3" order="1"/>
+							<Scripts>
+								<OnFinished>
+									self:GetParent():Hide()
+									self:GetParent():GetParent().promoCodeActiveLabel.animIn:Play()
+								</OnFinished>
+							</Scripts>
+						</AnimationGroup>
+					</Animations>
+				</FontString>
+				<FontString parentKey="Title" inherits="GameFontHighlight" text="ПРОМОКОД">
+					<Size x="250" y="20" />
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-16" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Responsse" inherits="GameFontHighlight" text="RESPONSE">
+					<Size x="250" y="20" />
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-36" />
+					</Anchors>
+				</FontString>
+			</Layer>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" file="Interface\\EncounterJournal\\AdventureGuide">
+                    <TexCoords left="0.0068359375" right="0.67285156" top="0.0068359375" bottom="0.31347656"/>
+                    <Size>
+                        <AbsDimension x="370" y="140"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnShow>
+                PlaySound("igCharacterInfoOpen")
+            </OnShow>
+            <OnKeyDown>
+                if arg1 == "ESCAPE" then
+                    self:Hide()
+                    local inputBox = _G[self:GetName().."InputBox"]
+                    local response = _G[self:GetName().."Response"]
+                    if inputBox then inputBox:SetText("") end
+                    if response then response:Hide() end
+                end
+            </OnKeyDown>
+            <OnHide>
+                PlaySound("igCharacterInfoClose")
+            </OnHide>
+        </Scripts>
+        <Frames>
+            <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Hide()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <!-- Поле ввода -->
+            <EditBox name="$parentInputBox" autoFocus="false" enableMouse="true" multiLine="false" maxLetters="50">
+                <Size>
+                    <AbsDimension x="340" y="50"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER">
+                        <Offset>
+                            <AbsDimension x="0" y="-10"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Backdrop>
+                    <EdgeFile file="Interface\\Tooltips\\UI-Tooltip-Border" edgeSize="12"/>
+                    <Background file="Interface\\STORE\\receipt-parchment-middle"/>
+                </Backdrop>
+                <BackdropColor r="1" g="1" b="1" a="1"/>
+                <FontString name="$parentText" inherits="GameFontHighlight" justifyH="CENTER" justifyV="MIDDLE">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+                <Scripts>
+					<OnLoad>
+						CustomPromoFrameInputBox:SetFont("Interface\\CustomFonts\\futurademic.TTF", 64, "OUTLINE")
+					</OnLoad>
+					<OnEnterPressed>
+						self:ClearFocus()
+					</OnEnterPressed>
+					<OnEscapePressed>
+						self:ClearFocus()
+					</OnEscapePressed>
+					<OnTextChanged>
+						if self:GetText() == "" then
+							CustomPromoFrame.description:Show()
+						else
+							CustomPromoFrame.description:Hide()
+						end
+					</OnTextChanged>
+				</Scripts>
+
+            </EditBox>
+
+            <!-- Кнопка "Активировать" -->
+            <Button name="$parentActivateButton" inherits="UIPanelButtonTemplate" TEXT="АКТИВИРОВАТЬ">
+                <Size>
+                    <AbsDimension x="120" y="30"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="BOTTOM" offsetY="10"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CustomPromoFrame_OnActivate()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+</Ui>

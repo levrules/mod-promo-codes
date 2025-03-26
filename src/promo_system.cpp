@@ -34,7 +34,22 @@ public:
             return false;
         }
 
-        std::string promoCode = std::string(std::get<QuotedString>(*promoCodeOpt));
+        std::string promoCode;
+
+        if (std::holds_alternative<QuotedString>(*promoCodeOpt))
+        {
+            promoCode = std::get<QuotedString>(*promoCodeOpt);
+        }
+        else if (std::holds_alternative<ObjectGuid::LowType>(*promoCodeOpt))
+        {
+            promoCode = std::to_string(std::get<ObjectGuid::LowType>(*promoCodeOpt));
+        }
+        else
+        {
+            handler->PSendSysMessage("Ошибка: Неверный формат промокода.");
+            return false;
+        }
+
 
         QueryResult result = CharacterDatabase.Query(
             "SELECT `id`, `type`, `value`, `amount`, `count`, `uniqueCharacters`, `uniqueAccount`, `start_time`, `end_time` "

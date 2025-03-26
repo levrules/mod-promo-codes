@@ -13,6 +13,7 @@ This module adds a promo code system for the AzerothCore server (World of Warcra
 - Automatic reduction of the number of available promo codes.
 - Checking the time limits of promo codes (start and end dates).
 
+> [!IMPORTANT]
 ## Installation
 1. Clone this repository:
 ```bash
@@ -21,6 +22,14 @@ git clone https://github.com/levrules/mod-promo-codes.git
 ```
 2. Re-run cmake and run a clean build of AzerothCore.
 3. Restart the server to apply the changes.
+4. ClientSide must be installed in the patch
+5. Include the file `ClientSide/Interface/FrameXML/Custom_PromoCode/Custom_PromoCode.xml` in the file `Interface/FrameXML/FrameXML.toc`
+
+> [!CAUTION]
+## Please note!
+- To display information correctly, change the text in the `acore_string` table.
+
+- Display in the frame occurs only by the PROMO keyword
 
 ## Usage
 Players can redeem promo codes by using the following command in chat:
