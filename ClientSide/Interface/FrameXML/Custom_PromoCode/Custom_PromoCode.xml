@@ -60,7 +60,7 @@
 					</Anchors>
 				</FontString>
 				<FontString parentKey="Responsse" inherits="GameFontHighlight" text="RESPONSE">
-					<Size x="250" y="20" />
+					<Size x="370" y="20" />
 					<Anchors>
 						<Anchor point="TOP" x="0" y="-36" />
 					</Anchors>

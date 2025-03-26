@@ -11,11 +11,13 @@ end
 
 -- Обработчик чата для фильтрации ответов
 local function PromoChatFilter(self, event, msg, author, ...)
-    if string.find(msg, "PROMO") then -- Фильтр по ключевому слову
-        if msg ~= lastPromoMessage then
-            CustomPromoFrame.Responsse:SetText(msg)
-            CustomPromoFrame.Responsse:Show() -- Показываем при новом сообщении
-            lastPromoMessage = msg
+    local promoText = string.match(msg, "^PROMO: (.+)") -- Убираем "PROMO: "
+    
+    if promoText then
+        if promoText ~= lastPromoMessage then
+            CustomPromoFrame.Responsse:SetText(promoText) -- Выводим без "PROMO: "
+            CustomPromoFrame.Responsse:Show()
+            lastPromoMessage = promoText
         end
         return true -- Блокируем вывод в чат
     end
